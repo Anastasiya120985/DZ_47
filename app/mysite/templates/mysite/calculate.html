@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title%}
+  {{title}}
+{%endblock%}
+{% block content %}
+{% if form %}
+<form method="POST">
+  {% csrf_token %}
+  <table>
+    {{ form }}
+  </table>
+  <button type="submit">Получить результат</button>
+  {% endif%}
+  {% if result %}
+  <p>Результат: {{ result }}</p>
+  {% endif %}
+{%endblock%}

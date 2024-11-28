@@ -26,4 +26,5 @@ urlpatterns = [
     path('user_age/', views.user_age),
     path('prime/', views.prime),
     path('shop/', views.shop),
+    path('calculate/', views.calculate),
 ]

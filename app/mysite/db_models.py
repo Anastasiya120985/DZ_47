@@ -1,6 +1,12 @@
 from django.db import models
 
 
+class UserInput(models.Model):
+    number1 = models.IntegerField()
+    number2 = models.IntegerField()
+    number3 = models.IntegerField()
+
+
 class UserShopData(models.Model):
     name = models.CharField(max_length=10)
     surname = models.CharField(max_length=10)

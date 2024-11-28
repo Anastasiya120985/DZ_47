@@ -6,7 +6,7 @@ import datetime
 import time
 import math
 
-from .form import UserForm, PrimeNumbersForm, UserShop
+from .form import UserForm, PrimeNumbersForm, UserShop, CalculationForm
 from .db_models import UserShopData
 
 
@@ -92,7 +92,8 @@ def get_context(title, d=None):
                          ('daytime/', 'Время'),
                          ('user_age/', 'Пользователь'),
                          ('prime/', 'Простые числа'),
-                         ('shop/', 'Интернет магазин')
+                         ('shop/', 'Интернет магазин'),
+                         ('calculate/', 'Калькулятор')
                          ]}
     if d:
         for k in d:
@@ -111,3 +112,26 @@ def is_prime(number):
         if number % element == 0:
             return False
     return True
+
+
+def calculate(request):
+    if request.method == 'POST':
+        form = CalculationForm(request.POST)
+        result = ''
+        if form.is_valid():
+            # numbers = [int(request.POST.get("number1")), int(request.POST.get("number2")), int(request.POST.get("number3"))]
+            numbers = [form.cleaned_data['number1'], form.cleaned_data['number2'], form.cleaned_data['number3']]
+            operation = form.cleaned_data['operation']
+            if operation == 'min':
+                result = min(numbers)
+            elif operation == 'max':
+                result = max(numbers)
+            elif operation == 'avg':
+                result = sum(numbers) / len(numbers)
+        u = {'result': result}
+        content = get_context('Калькулятор', u)
+    else:
+        userform = CalculationForm()
+        content = get_context('Калькулятор', {"form": userform})
+    return render(request, 'calculate.html', content)
+
